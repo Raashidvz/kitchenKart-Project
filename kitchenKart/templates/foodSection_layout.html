@@ -14,11 +14,22 @@
     transition: background-color 0.3s;
   }
 
-  .icon-input::-webkit-outer-spin-button,
-  .icon-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
+.icon-input::-webkit-outer-spin-button,
+.icon-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.icon-input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.icon-input::-ms-clear,
+.icon-input::-ms-reveal {
+  display: none;
+  width: 0;
+  height: 0;
+}
 
   .icon-input.green {
     background-color: #18b66a !important;
