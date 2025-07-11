@@ -1,0 +1,90 @@
+{% load static %}
+<div class="hero_area">
+    <div class="bg-box">
+      <img src="{% static 'images/hero-bg.jpg' %}" alt="">
+    </div>
+    <!-- header section strats -->
+    {% block headerMenu %}
+    {% include 'headerMenu_layout.html' %}
+    {% endblock headerMenu %}
+    <!-- end header section -->
+    <!-- slider section -->
+    <section class="slider_section ">
+      <div id="customCarousel1" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="container ">
+              <div class="row">
+                <div class="col-md-7 col-lg-6 ">
+                  <div class="detail-box">
+                    <h1>
+                      Fast Food Restaurant
+                    </h1>
+                    <p>
+                      At our shop, every dish tells a story. A story of handpicked ingredients, secret recipes, and the love that goes into every bite. Whether you're here for a hearty meal or a quick snack, we promise fresh flavors, generous portions, and a warm dining experience that keeps you coming back. Your satisfaction isn’t just our goal — it’s our passion!
+                    </p>
+                    <div class="btn-box">
+                      <a href="" class="btn1">
+                        Order Now
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item ">
+            <div class="container ">
+              <div class="row">
+                <div class="col-md-7 col-lg-6 ">
+                  <div class="detail-box">
+                    <h1>
+                      Fast Food Restaurant
+                    </h1>
+                    <p>
+                      Step into a world of delicious possibilities. Our kitchen blends tradition with creativity, bringing you a menu full of irresistible dishes made to please every palate. From the first aroma to the final bite, we offer an experience that excites your senses. Whether you dine in, take out, or order online — we make sure each meal feels special.
+                    </p>
+                    <div class="btn-box">
+                      <a href="" class="btn1">
+                        Order Now
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="container ">
+              <div class="row">
+                <div class="col-md-7 col-lg-6 ">
+                  <div class="detail-box">
+                    <h1>
+                      Fast Food Restaurant
+                    </h1>
+                    <p>
+                      We believe great food brings people together — and that’s exactly what we aim for. Our chefs pour heart and soul into every recipe, using quality ingredients and time-tested methods to bring you food that feels like home. Whether it’s your first visit or your fiftieth, we’re here to serve up comfort, taste, and happiness — all on one plate.
+                    </p>
+                    <div class="btn-box">
+                      <a href="" class="btn1">
+                        Order Now
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container">
+          <ol class="carousel-indicators">
+            <li data-target="#customCarousel1" data-slide-to="0" class="active"></li>
+            <li data-target="#customCarousel1" data-slide-to="1"></li>
+            <li data-target="#customCarousel1" data-slide-to="2"></li>
+          </ol>
+        </div>
+      </div>
+
+    </section>
+    <!-- end slider section -->
+  </div>

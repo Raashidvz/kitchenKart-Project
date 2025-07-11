@@ -1,0 +1,216 @@
+{% load static %}
+<style>
+  .icon-input {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background-color: #ffbe33;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    outline: none;
+    transition: background-color 0.3s;
+  }
+
+  .icon-input::-webkit-outer-spin-button,
+  .icon-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .icon-input.green {
+    background-color: #18b66a !important;
+  }
+
+  .icon-input:focus {
+    box-shadow: 0 0 0 2px #18b66a44;
+  }
+
+  .btn-box button {
+    background-color: #ffbe33;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 18px;
+    border-radius: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  .btn-box button:hover {
+    background-color: #e69500;
+    transform: scale(1.05);
+  }
+
+  .btn-box button:active {
+    transform: scale(0.98);
+  }
+
+/* Live Cart */
+.live-cart {
+  position: fixed;
+  top: 120px;
+  right: 20px;
+  width: 280px;
+  background: linear-gradient(135deg, #ffffff, #fff7e6);
+  border: 2px solid #ffbe33;
+  padding: 15px 20px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  opacity: 1;
+}
+
+.live-cart.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px);
+}
+
+.cart-header {
+  font-weight: bold;
+  font-size: 18px;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+}
+
+#cart-items {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+#cart-items li {
+  padding: 6px 0;
+  font-size: 15px;
+  color: #444;
+  border-bottom: 1px dashed #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#cart-items li:last-child {
+  border-bottom: none;
+}
+
+</style>
+
+<!-- Live Cart Section -->
+<div id="live-cart" class="live-cart hidden">
+  <div class="cart-header">
+    🛒 <span>Live Cart</span>
+  </div>
+  <ul id="cart-items"></ul>
+</div>
+
+<!-- Main Form Section -->
+<form method="post" action="{% url 'place_order' %}">
+  {% csrf_token %}
+
+  <section id="menu-section" class="food_section layout_padding-bottom layout_padding-top">
+    <div class="container">
+      <div class="heading_container heading_center">
+        <h2>Our Menu</h2>
+      </div>
+
+      <div class="filters-content">
+        <div class="row grid">
+
+          {% for food in foods %}
+          <div class="col-sm-6 col-lg-4 all pizza">
+            <div class="box">
+              <div>
+                <div class="img-box">
+                  {% if food.image %}
+                  <img src="{{ food.image.url }}" alt="">
+                  {% else %}
+                  <img src="{% static 'images/f1.png' %}" alt="">
+                  {% endif %}
+                </div>
+                <div class="detail-box">
+                  <h5>{{ food.name }}</h5>
+                  <!-- <p>{{ food.description }}</p> -->
+                  <div class="options">
+                    <h6>₹{{ food.price }}</h6>
+                    <input type="number"
+                           class="icon-input"
+                           name="quantity_{{ food.id }}"
+                           min="0"
+                           placeholder="0"
+                           data-name="{{ food.name }}"
+                           oninput="checkQuantity(this)">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+
+        </div>
+      </div>
+
+      <div class="btn-box text-center mt-4">
+        <button type="submit">Place Order</button>
+      </div>
+    </div>
+  </section>
+</form>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const menuSection = document.getElementById("menu-section");
+    const liveCart = document.getElementById("live-cart");
+
+    const observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            liveCart.classList.remove("hidden");
+          } else {
+            liveCart.classList.add("hidden");
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(menuSection);
+  });
+
+  function checkQuantity(input) {
+    const name = input.getAttribute("data-name");
+    const value = parseInt(input.value);
+    const cartList = document.getElementById("cart-items");
+
+    input.classList.toggle('green', value > 0);
+
+    let existingItem = document.querySelector(`#cart-items li[data-id='${input.name}']`);
+
+    if (value > 0) {
+      if (existingItem) {
+        existingItem.textContent = `${name} × ${value}`;
+      } else {
+        const li = document.createElement("li");
+        li.setAttribute("data-id", input.name);
+        li.textContent = `${name} × ${value}`;
+        cartList.appendChild(li);
+      }
+    } else {
+      if (existingItem) {
+        cartList.removeChild(existingItem);
+      }
+    }
+  }
+</script>

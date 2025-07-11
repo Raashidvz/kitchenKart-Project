@@ -1,0 +1,25 @@
+<section class="book_section layout_padding layout_padding-top">
+  <div class="container">
+    <div class="heading_container text-center align-items-center layout_padding-top mb-4">
+      <h2>Kitchen Kart</h2>
+    </div>
+    <div class="d-flex justify-content-center align-items-center" style="min-height:45vh;">
+      <div class="col-md-6">
+        <div class="form_container">
+          <form action="" method="post" id="LoginForm" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+              <input type="text" class="form-control" name="username" required placeholder="Your Username" />
+            </div>
+            <div class="mb-3">
+              <input type="password" class="form-control" name="pswd" required placeholder="Password" />
+            </div>
+            <div class="btn_box text-center">
+              <button type="submit" name="login">Sign-in</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

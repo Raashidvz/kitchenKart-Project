@@ -1,0 +1,106 @@
+<section class="book_section layout_padding">
+  <div class="container">
+    <div class="heading_container">
+      <h2>Order Status</h2>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-bordered text-center">
+        <thead class="thead-dark">
+          <tr>
+            <th>Order No</th>
+            <th>Item Name</th>
+            <th>Quantity</th>
+
+            {% if user.username == 'manager' %}
+            <th>Price</th>
+            <th>Total</th>
+            {% endif %}
+
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- {% for item in order_items %}
+          
+          <tr>
+            <td>{{ item.order.order_number }}</td>
+            <td>{{ item.menu_item.name }}</td>
+            <td>{{ item.quantity }}</td>
+
+            {% if user.username == 'manager' %}
+            <td>{{ item.menu_item.price }}</td>
+            <td>{{ item.total_price|floatformat:2 }}</td>
+            {% endif %}
+
+            {% if not forloop.last %}
+            {% with next_item=order_items|slice:forloop.counter|first %}
+            {% if item.order.order_number == next_item.order.order_number %}
+            <td>
+              {% if item.order.status == 'completed' %}
+                <span class="badge badge-success">Finished</span>
+              {% else %}
+                <span class="badge badge-warning text-dark">Pending</span>
+              {% endif %}
+            </td>
+            <td>
+              <form method="post" action="{% url 'update_order_status' item.order.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-primary">Update Status</button>
+              </form>
+            </td>
+            {% else %}
+            <td></td><td></td>
+            {% endif %}
+            {% endwith %}
+            {% endif %}
+
+            
+          </tr>
+          {% endfor %} -->
+
+          {% for entry in grouped_items %}
+            <tr>
+              <td>{{ entry.item.order.order_number }}</td>
+              <td>{{ entry.item.menu_item.name }}</td>
+              <td>{{ entry.item.quantity }}</td>
+
+              {% if user.username == 'manager' %}
+                <td>{{ entry.item.menu_item.price }}</td>
+                <td>{{ entry.item.total_price|floatformat:2 }}</td>
+              {% endif %}
+
+              <td>
+                  {% if entry.order.status == 'completed' %}
+                    <span class="badge badge-success">Finished</span>
+                  {% else %}
+                    <span class="badge badge-warning text-dark">Pending</span>
+                  {% endif %}
+              </td>
+
+              {% if entry.is_first_in_group %}
+                
+                <td>
+                  <form method="post" action="{% url 'update_order_status' entry.order.id %}">
+                    {% csrf_token %}
+                    {% if user.username == 'manager' %}
+                    <button type="submit" class="btn btn-sm btn-primary">{% if entry.order.status == 'completed' %}₹{{ entry.order.total }}{% else %}Update Status{% endif %}</button>
+                    {% else %}
+                      {% if not entry.order.status == 'completed' %}
+                      <button type="submit" class="btn btn-sm btn-primary">Update Status</button>
+                      {% endif %}
+
+                    {% endif %}
+                  </form>
+                </td>
+              {% else %}
+                <td></td>
+              {% endif %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

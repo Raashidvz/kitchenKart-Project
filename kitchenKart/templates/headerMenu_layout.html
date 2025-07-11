@@ -1,0 +1,46 @@
+{% load static %}
+<header class="header_section" style="background-color: #252c33;">
+      <div class="container">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="{% url 'home' %}">
+            <span>
+              KitchenKart
+            </span>
+          </a>
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""> </span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav  mx-auto ">
+              {% if user.username == 'manager' %}
+              <li class="nav-item {% if request.path == '/home' %}active{% endif %}">
+                <a class="nav-link" href="{% url 'home' %}">Home</a>
+              </li>
+              {% endif %}
+          
+              <li class="nav-item {% if request.path == '/orders/' %}active{% endif %}">
+                <a class="nav-link" href="{% url 'list_orders' %}">Orders</a>
+              </li>
+              
+            </ul>
+            <div class="user_option">
+              <!-- <a href="" class="user_link">
+                <i class="fa fa-user" aria-hidden="true"></i>
+              </a> -->
+              
+              <form class="form-inline">
+                <!-- <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                </button> -->
+                <a href="{% url 'logout' %}" class="order_online">
+                Logout
+                </a>
+              </form>
+              
+            </div>
+          </div>
+        </nav>
+      </div>
+</header>
